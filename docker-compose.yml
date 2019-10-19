@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  # backend
+  web:
+    build: ./
+    ports:
+      - "5000:5000"
+    entrypoint: "flask run"
+
+  # database for backend
+  db:
+    image: postgres
+
+  # cache middleware
+  redis:
+    image: "redis:alpine"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - './frontend/src:/code/src'
+      - './frontend/public:/code/public'
+    entrypoint: "npm start"
